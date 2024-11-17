@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridSystem : MonoBehaviour
@@ -8,6 +9,7 @@ public class GridSystem : MonoBehaviour
     public float tileSize = 1.1f;
     public GameObject tilePrefab;
     public int submarineCount = 10;
+
 
     private Tile[,] grid;
     private void Awake()
@@ -29,6 +31,49 @@ public class GridSystem : MonoBehaviour
         }
         return grid[x, z];
     }
+
+    public List<Tile> GetTilesInRadius(int centerX, int centerZ, int radius)
+    {
+        List<Tile> tiles = new List<Tile>();
+
+        for (int x = centerX - radius; x <= centerX + radius; x++)
+        {
+            for (int z = centerZ - radius; z <= centerZ + radius; z++)
+            {
+                if (x >= 0 && x < gridWidth && z >= 0 && z < gridHeight)
+                {
+                    int distance = Mathf.Abs(centerX - x) + Mathf.Abs(centerZ - z);
+                    if (distance <= radius)
+                    {
+                        tiles.Add(grid[x, z]);
+                    }
+                }
+            }
+        }
+        return tiles;
+    }
+
+    public List<Tile> GetAdjacentTiles(int x, int z)
+    {
+        List<Tile> tiles = new List<Tile>();
+
+        int[] dx = { -1, 0, 1, 0 };
+        int[] dz = { 0, -1, 0, 1 };
+
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = x + dx[i];
+            int nz = z + dz[i];
+
+            if (nx >= 0 && nx < gridWidth && nz >= 0 && nz < gridHeight)
+            {
+                tiles.Add(grid[nx, nz]);
+            }
+        }
+
+        return tiles;
+    }
+
 
     void GenerateGrid()
     {
@@ -106,4 +151,7 @@ public class GridSystem : MonoBehaviour
         }
         return count;
     }
+
+
+
 }

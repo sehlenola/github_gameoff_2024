@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class Tile : MonoBehaviour
 
     public int NeighborSubmarines = 0;
     public bool HasSubmarine = false;
+
+    private bool isHighlighted = false;
 
     public int GridX { get; private set; }
     public int GridZ { get; private set; }
@@ -20,14 +23,66 @@ public class Tile : MonoBehaviour
         UpdateTileAppearance();
     }
 
+    public void SetHighlighted(bool highlighted)
+    {
+        isHighlighted = highlighted;
+        UpdateTileAppearance();
+    }
+    private void OnMouseEnter()
+    {
+        if (AbilityManager.Instance.SelectedAbility != null)
+        {
+            Ability ability = AbilityManager.Instance.SelectedAbility;
+
+            if (ability.supportsPreview)
+            {
+                List<Tile> tilesToHighlight = ability.GetAffectedTiles(this);
+
+                AbilityManager.Instance.HighlightTiles(tilesToHighlight);
+            }
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (AbilityManager.Instance.SelectedAbility != null)
+        {
+            AbilityManager.Instance.ClearHighlightedTiles();
+        }
+    }
     private void OnMouseDown()
     {
-        RevealTile();
+        Debug.Log($"Tile clicked: {name} at ({GridX}, {GridZ})");
+
+        if (AbilityManager.Instance.SelectedAbility != null)
+        {
+            AbilityManager.Instance.UseAbilityOnTile(this);
+        }
+        else
+        {
+            Debug.Log("No ability selected.");
+        }
     }
     public void SetCoordinates(int x, int z)
     {
         GridX = x;
         GridZ = z;
+    }
+
+    public void AttackTile()
+    {
+        if (CurrentState == TileState.Hidden || CurrentState == TileState.Submarine)
+        {
+            if (HasSubmarine)
+            {
+                CurrentState = TileState.Destroyed;
+            }
+            else
+            {
+                CurrentState = TileState.Revealed;
+            }
+            UpdateTileAppearance();
+        }
     }
     public void RevealTile()
     {
@@ -40,10 +95,12 @@ public class Tile : MonoBehaviour
             else
             {
                 CurrentState = TileState.Revealed;
+                /*
                 if (NeighborSubmarines == 0)
                 {
                     RevealAdjacentTiles();
                 }
+                */
             }
             UpdateTileAppearance();
         }
@@ -77,28 +134,43 @@ public class Tile : MonoBehaviour
     public void UpdateTileAppearance()
     {
         MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+        meshRenderer.GetPropertyBlock(propertyBlock);
+
+        Color baseColor;
 
         switch (CurrentState)
         {
             case TileState.Hidden:
-                propertyBlock.SetColor("_BaseColor", Color.white);
+                baseColor = Color.white;
                 text.text = "";
                 break;
             case TileState.Revealed:
-                Color color = NeighborSubmarines > 0 ? new Color(1f, 0.65f, 0f) : Color.gray; // Orange or Gray
-                propertyBlock.SetColor("_BaseColor", color);
+                baseColor = NeighborSubmarines > 0 ? new Color(1f, 0.65f, 0f) : Color.gray; // Orange or Gray
                 text.text = NeighborSubmarines > 0 ? NeighborSubmarines.ToString() : "";
                 break;
             case TileState.Submarine:
-                propertyBlock.SetColor("_BaseColor", Color.red);
+                baseColor = Color.red;
                 text.text = "!";
                 break;
             case TileState.Destroyed:
-                propertyBlock.SetColor("_BaseColor", Color.green);
+                baseColor = Color.green;
                 text.text = "X";
+                break;
+            default:
+                baseColor = Color.white;
+                text.text = "";
                 break;
         }
 
+        if (isHighlighted)
+        {
+            // Blend the base color with yellow to indicate highlighting
+            baseColor = Color.Lerp(baseColor, Color.yellow, 0.5f);
+        }
+
+        propertyBlock.SetColor("_BaseColor", baseColor);
         meshRenderer.SetPropertyBlock(propertyBlock);
     }
+
+
 }
