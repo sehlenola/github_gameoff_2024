@@ -6,6 +6,7 @@ public class AbilityManager : MonoBehaviour
     public static AbilityManager Instance { get; private set; }
 
     public Ability SelectedAbility;
+    public AbilityCard abilityCard;
     private List<Tile> highlightedTiles = new List<Tile>();
 
     private void Awake()
@@ -22,8 +23,29 @@ public class AbilityManager : MonoBehaviour
 
     public void SelectAbility(Ability ability)
     {
+        Debug.Log("Selecting ability " + ability);
         SelectedAbility = ability;
         // Update UI to reflect selected ability
+    }
+
+    public void SelectCard(AbilityCard abilityCard)
+    {
+        this.abilityCard = abilityCard;
+    }
+
+    public void CancelAbility()
+    {
+        if (SelectedAbility != null)
+        {
+            // Return the dice to the AbilityCard
+            //AbilityCard abilityCard = FindAbilityCardForAbility(SelectedAbility);
+            if (abilityCard != null)
+            {
+                abilityCard.OnAbilityCancelled();
+            }
+            SelectedAbility = null;
+            ClearHighlightedTiles();
+        }
     }
 
     public void UseAbilityOnTile(Tile targetTile)
@@ -33,7 +55,14 @@ public class AbilityManager : MonoBehaviour
             if (SelectedAbility.CanActivate(targetTile))
             {
                 SelectedAbility.Activate(targetTile);
-                // Handle cooldowns, turn limits, or ability consumption here
+                if (abilityCard != null)
+                {
+                    abilityCard.OnAbilityUsed();
+                }
+                // Deselect ability after use
+                SelectedAbility = null;
+                abilityCard = null;
+                ClearHighlightedTiles();
             }
             else
             {
@@ -67,5 +96,12 @@ public class AbilityManager : MonoBehaviour
             tile.SetHighlighted(false);
         }
         highlightedTiles.Clear();
+    }
+
+    private AbilityCard FindAbilityCardForAbility(Ability ability)
+    {
+        // Implement logic to find the AbilityCard associated with the ability
+        // For example, keep a list of AbilityCards or search in the scene
+        return null; // Placeholder
     }
 }
