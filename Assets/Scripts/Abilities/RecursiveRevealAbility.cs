@@ -4,9 +4,9 @@ using System.Collections.Generic;
 [CreateAssetMenu(menuName = "Abilities/Recursive Reveal")]
 public class RecursiveRevealAbility : Ability
 {
-    public override void Activate(Tile targetTile)
+    public override void Activate(Tile targetTile, AbilityContext abilityContext)
     {
-        if (CanActivate(targetTile))
+        if (CanActivate(targetTile, abilityContext))
         {
             RevealRecursive(targetTile);
         }

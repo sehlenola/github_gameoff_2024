@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AbilityManager : MonoBehaviour
 {
@@ -9,6 +11,15 @@ public class AbilityManager : MonoBehaviour
     public AbilityCard abilityCard;
     private List<Tile> highlightedTiles = new List<Tile>();
 
+    public AbilityContext AbilityContext { get; private set; }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonUp(1))
+        {
+            CancelAbility();
+        }
+    }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -21,10 +32,12 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
-    public void SelectAbility(Ability ability)
+    public void SelectAbility(Ability ability, int diceValue)
     {
+        CancelAbility();
         Debug.Log("Selecting ability " + ability);
         SelectedAbility = ability;
+        AbilityContext = new AbilityContext { diceValue = diceValue };
         // Update UI to reflect selected ability
     }
 
@@ -52,9 +65,9 @@ public class AbilityManager : MonoBehaviour
     {
         if (SelectedAbility != null)
         {
-            if (SelectedAbility.CanActivate(targetTile))
+            if (SelectedAbility.CanActivate(targetTile, AbilityContext))
             {
-                SelectedAbility.Activate(targetTile);
+                SelectedAbility.Activate(targetTile, AbilityContext);
                 if (abilityCard != null)
                 {
                     abilityCard.OnAbilityUsed();

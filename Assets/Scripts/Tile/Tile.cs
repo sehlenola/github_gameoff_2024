@@ -15,6 +15,9 @@ public class Tile : MonoBehaviour
     public int GridX { get; private set; }
     public int GridZ { get; private set; }
 
+    public bool IsRevealed { get; private set; }
+    public Submarine submarine;
+
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private TextMeshProUGUI text;
 
@@ -36,13 +39,18 @@ public class Tile : MonoBehaviour
 
             if (ability.supportsPreview)
             {
-                List<Tile> tilesToHighlight = ability.GetAffectedTiles(this);
+                AbilityContext context = AbilityManager.Instance.AbilityContext;
+                List<Tile> tilesToHighlight = ability.GetAffectedTiles(this, context);
 
                 AbilityManager.Instance.HighlightTiles(tilesToHighlight);
             }
         }
     }
-
+    public void SetSubmarine(Submarine submarine)
+    {
+        this.submarine = submarine;
+        HasSubmarine = true;
+    }
     private void OnMouseExit()
     {
         if (AbilityManager.Instance.SelectedAbility != null)
@@ -52,8 +60,6 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        Debug.Log($"Tile clicked: {name} at ({GridX}, {GridZ})");
-
         if (AbilityManager.Instance.SelectedAbility != null)
         {
             AbilityManager.Instance.UseAbilityOnTile(this);
@@ -73,34 +79,36 @@ public class Tile : MonoBehaviour
     {
         if (CurrentState == TileState.Hidden || CurrentState == TileState.Submarine)
         {
-            if (HasSubmarine)
+            if (submarine != null)
             {
                 CurrentState = TileState.Destroyed;
+                UpdateTileAppearance();
+                submarine.CheckIfDestroyed();
             }
             else
             {
                 CurrentState = TileState.Revealed;
+                UpdateTileAppearance();
             }
-            UpdateTileAppearance();
         }
     }
     public void RevealTile()
     {
+        
         if (CurrentState == TileState.Hidden)
         {
             if (HasSubmarine)
             {
                 CurrentState = TileState.Submarine;
+                if (submarine != null)
+                {
+                    submarine.CheckIfDestroyed();
+                }
             }
             else
             {
                 CurrentState = TileState.Revealed;
-                /*
-                if (NeighborSubmarines == 0)
-                {
-                    RevealAdjacentTiles();
-                }
-                */
+
             }
             UpdateTileAppearance();
         }
@@ -133,6 +141,7 @@ public class Tile : MonoBehaviour
 
     public void UpdateTileAppearance()
     {
+        
         MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
         meshRenderer.GetPropertyBlock(propertyBlock);
 
@@ -153,8 +162,16 @@ public class Tile : MonoBehaviour
                 text.text = "!";
                 break;
             case TileState.Destroyed:
-                baseColor = Color.green;
-                text.text = "X";
+                if (submarine != null && submarine.isDestroyed)
+                {
+                    baseColor = Color.black;
+                    text.text = "X";
+                }
+                else
+                {
+                    baseColor = Color.green;
+                    text.text = "Hit!";
+                }
                 break;
             default:
                 baseColor = Color.white;
@@ -171,6 +188,7 @@ public class Tile : MonoBehaviour
         propertyBlock.SetColor("_BaseColor", baseColor);
         meshRenderer.SetPropertyBlock(propertyBlock);
     }
+        
 
 
 }

@@ -7,8 +7,9 @@ public class DiceArea : MonoBehaviour
 
     public void AddDice(Dice dice)
     {
+        Debug.Log("Trying to add dice");
         dice.transform.SetParent(diceContainer);
-        dice.ResetPosition();
+        dice.SetPosition(diceContainer);
     }
 
     public void ClearDice()

@@ -6,6 +6,6 @@ public class AbilityButton : MonoBehaviour
 
     public void OnButtonClick()
     {
-        AbilityManager.Instance.SelectAbility(ability);
+        AbilityManager.Instance.SelectAbility(ability, 1);
     }
 }

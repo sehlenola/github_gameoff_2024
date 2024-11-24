@@ -10,7 +10,7 @@ public class GridSystem : MonoBehaviour
     public GameObject tilePrefab;
     public int submarineCount = 10;
 
-
+    public Level levelData;
     private Tile[,] grid;
     private void Awake()
     {
@@ -18,9 +18,16 @@ public class GridSystem : MonoBehaviour
     }
     private void Start()
     {
+        if (levelData == null)
+        {
+            Debug.LogError("Level data not assigned to GridSystem.");
+            return;
+        }
+        gridWidth = levelData.gridWidth;
+        gridHeight = levelData.gridHeight;
         GenerateGrid();
-        PlaceSubmarines();
-        CalculateNeighborNumbers();
+        //PlaceSubmarines();
+        //CalculateNeighborNumbers();
     }
 
     public Tile GetTileAt(int x, int z)
@@ -95,6 +102,7 @@ public class GridSystem : MonoBehaviour
                 grid[x, z] = tileComponent;
             }
         }
+        SubmarineManager.Instance.PlaceSubmarines();
     }
 
     void PlaceSubmarines()
@@ -113,7 +121,7 @@ public class GridSystem : MonoBehaviour
         }
     }
 
-    void CalculateNeighborNumbers()
+    public void CalculateNeighborNumbers()
     {
         for (int x = 0; x < gridWidth; x++)
         {
@@ -128,7 +136,7 @@ public class GridSystem : MonoBehaviour
         }
     }
 
-    int CountSubmarineNeighbors(int x, int z)
+    private int CountSubmarineNeighbors(int x, int z)
     {
         int count = 0;
 

@@ -6,7 +6,7 @@ public class RevealRadiusAbility : Ability
 {
     public int radius = 1;
 
-    public override void Activate(Tile targetTile)
+    public override void Activate(Tile targetTile, AbilityContext abilityContext)
     {
         GridSystem gridSystem = GridSystem.Instance;
 
@@ -14,13 +14,13 @@ public class RevealRadiusAbility : Ability
 
         foreach (Tile tile in tilesInRadius)
         {
-            if (CanActivate(tile))
+            if (CanActivate(tile, abilityContext))
             {
                 tile.RevealTile();
             }
         }
     }
-    public override List<Tile> GetAffectedTiles(Tile targetTile)
+    public override List<Tile> GetAffectedTiles(Tile targetTile, AbilityContext abilityContext)
     {
         GridSystem gridSystem = GridSystem.Instance;
         return gridSystem.GetTilesInRadius(targetTile.GridX, targetTile.GridZ, radius);

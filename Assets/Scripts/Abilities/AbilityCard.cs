@@ -32,10 +32,17 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
         abilityIcon.sprite = ability.icon;
         abilityName.text = ability.abilityName;
         abilityDescription.text = ability.description;
+
+        // Display dice requirement description
+        if (ability.diceRequirement != null)
+        {
+            abilityDescription.text += $"\n{ability.diceRequirement.GetDescription()}";
+        }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
+        if (AbilityManager.Instance.SelectedAbility != null) { return; }
         Debug.Log("OnDrop called on AbilityCard.");
 
         Dice dice = eventData.pointerDrag?.GetComponent<Dice>();
@@ -45,7 +52,7 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
             {
                 assignedDice = dice;
                 dice.OnAcceptedByAbilityCard(diceSlot);
-                AbilityManager.Instance.SelectAbility(ability);
+                AbilityManager.Instance.SelectAbility(ability, dice.Value);
                 AbilityManager.Instance.SelectCard(this);
                 cardBackgroundImage.color = cardBackgroundHighlightColor;
             }
@@ -63,17 +70,20 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
 
     public bool CanAcceptDice(Dice dice)
     {
-        // Implement logic to check if the dice value meets the ability's requirements
-        // For now, we'll assume any dice can be accepted
-        return assignedDice == null;
+        if (assignedDice != null)
+            return false;
+
+        if (ability.diceRequirement != null)
+        {
+            return ability.diceRequirement.IsSatisfiedBy(dice.Value);
+        }
+        return true; // No requirement means any dice is acceptable
     }
 
     public void AcceptDice(Dice dice)
     {
         assignedDice = dice;
-        //dice.transform.SetParent(diceSlot);
-        //dice.transform.localPosition = Vector3.zero;
-        //dice.transform.localScale = Vector3.one;
+        dice.OnAcceptedByAbilityCard(diceSlot);
     }
 
     public void RemoveDice()
@@ -92,7 +102,7 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
         if (assignedDice != null)
         {
             Debug.Log(ability);
-            AbilityManager.Instance.SelectAbility(ability);
+            AbilityManager.Instance.SelectAbility(ability,assignedDice.Value);
             // Enter targeting mode
         }
         else
