@@ -19,4 +19,8 @@ public class DiceArea : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
+    public void DestroyDice(Dice dice)
+    {
+        Destroy(dice.gameObject);
+    }
 }

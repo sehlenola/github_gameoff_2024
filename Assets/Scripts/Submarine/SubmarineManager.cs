@@ -64,6 +64,10 @@ public class SubmarineManager : MonoBehaviour
 
     private bool PlaceSubmarine(int length)
     {
+        if(gridSystem == null)
+        {
+            gridSystem = GridSystem.Instance;
+        }
         int maxAttempts = 100;
         int attempts = 0;
         while (attempts < maxAttempts)

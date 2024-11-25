@@ -43,7 +43,6 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
     public void OnDrop(PointerEventData eventData)
     {
         if (AbilityManager.Instance.SelectedAbility != null) { return; }
-        Debug.Log("OnDrop called on AbilityCard.");
 
         Dice dice = eventData.pointerDrag?.GetComponent<Dice>();
         if (dice != null)
@@ -116,10 +115,13 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
         if (assignedDice != null)
         {
             // Consume the dice
-            Destroy(assignedDice.gameObject);
+            Dice diceToRemove = assignedDice;
+            //Destroy(assignedDice.gameObject);
             assignedDice = null;
+            DiceManager.Instance.RemoveDice(diceToRemove);
         }
-        RemoveDice();
+        //RemoveDice();
+        cardBackgroundImage.color = cardBackgroundDefaultColor;
     }
 
     public void OnAbilityCancelled()

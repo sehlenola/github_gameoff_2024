@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class DiceManager : MonoBehaviour
 {
@@ -61,5 +62,10 @@ public class DiceManager : MonoBehaviour
     public void ReturnDiceToPool(Dice dice)
     {
         diceArea.AddDice(dice);
+    }
+    public void RemoveDice(Dice dice)
+    {
+        dicePool.Remove(dice);
+        diceArea.DestroyDice(dice);
     }
 }
