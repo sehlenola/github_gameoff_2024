@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: 
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 72333ad5e73015949be3ce5cafbfe280, type: 3}
+  supportsPreview: 1
   requiresTarget: 1
+  diceRequirement: {fileID: 0}

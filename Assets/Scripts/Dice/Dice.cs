@@ -77,11 +77,17 @@ public class Dice : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                     return;
                 }
             }
+            /*
             if(diceArea != null)
             {
                 droppedOnValidTarget = true;
                 diceArea.AddDice(this);
                 AbilityManager.Instance.CancelAbility();
+            }
+            */
+            else
+            {
+                ResetPosition();
             }
         }
         else if (!droppedOnValidTarget)
@@ -112,7 +118,9 @@ public class Dice : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         valueText.raycastTarget = true;
         droppedOnValidTarget = true;
         transform.SetParent(newParent);
-        transform.localPosition = Vector3.zero;
+        transform.SetSiblingIndex(1);
+        //transform.localPosition = Vector3.zero;
+        transform.localPosition = new Vector3(0,50,0);
         transform.localScale = Vector3.one;
     }
 }
