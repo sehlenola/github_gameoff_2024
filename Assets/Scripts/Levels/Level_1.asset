@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24dec7a8567bca64e8557d98745e7505, type: 3}
   m_Name: Level_1
   m_EditorClassIdentifier: 
-  gridWidth: 10
-  gridHeight: 10
+  gridWidth: 7
+  gridHeight: 7
   submarines:
   - length: 3
     count: 2
   - length: 2
     count: 2
-  - length: 1
-    count: 2
+  maxTurns: 3
+  maxDice: 3

@@ -5,8 +5,12 @@ public class AbilityViewer : MonoBehaviour
 {
     public GameObject abilityViewerItemPrefab;
     public Transform abilitiesContainer;
+    public GameObject RewardContainer;
 
     private List<AbilityViewerItem> abilityViewerItems = new List<AbilityViewerItem>();
+
+    private bool isRewardMode = false;
+    private List<Ability> rewardAbilities;
 
     private void Start()
     {
@@ -17,6 +21,13 @@ public class AbilityViewer : MonoBehaviour
         UpdateAbilityViewer();
     }
 
+    public void ShowRewards(List<Ability> abilities)
+    {
+        isRewardMode = true;
+        rewardAbilities = abilities;
+
+        UpdateAbilityViewer();
+    }
     private void UpdateAbilityViewer()
     {
         // Clear existing items
@@ -26,12 +37,21 @@ public class AbilityViewer : MonoBehaviour
         }
         abilityViewerItems.Clear();
 
-        // Recreate items based on player's abilities
-        foreach (Ability ability in Player.Instance.Abilities)
+        List<Ability> abilitiesToShow = isRewardMode ? rewardAbilities : Player.Instance.Abilities;
+
+        // Recreate items based on abilities to show
+        foreach (Ability ability in abilitiesToShow)
         {
             GameObject itemObj = Instantiate(abilityViewerItemPrefab, abilitiesContainer);
             AbilityViewerItem item = itemObj.GetComponent<AbilityViewerItem>();
             item.SetAbility(ability);
+
+            if (isRewardMode)
+            {
+                // Configure item for reward selection
+                item.SetAsReward();
+            }
+
             abilityViewerItems.Add(item);
         }
     }
@@ -56,5 +76,21 @@ public class AbilityViewer : MonoBehaviour
         // Implement UI logic to allow the player to select an ability to swap
         // This could involve enabling UI panels, setting up buttons, etc.
         Debug.Log("Opening swap ability UI.");
+    }
+
+    // Method called when a reward ability is selected
+    public void OnRewardAbilitySelected(Ability ability)
+    {
+        // Add ability to player's abilities
+        Player.Instance.AddAbility(ability);
+
+        // Exit reward mode
+        isRewardMode = false;
+
+        // Close reward screen
+        RewardContainer.SetActive(false);
+
+        // Proceed to next level
+        GameManager.Instance.LoadNextLevel();
     }
 }

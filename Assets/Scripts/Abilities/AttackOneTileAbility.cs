@@ -8,6 +8,10 @@ public class AttackOneTileAbility : Ability
         if (CanActivate(targetTile, abilityContext))
         {
             targetTile.AttackTile();
+            if(targetTile.submarine != null && abilityContext.diceValue > 1)
+            {
+                DiceManager.Instance.AddSingleDice(abilityContext.diceValue - 1, abilityContext.diceValue - 1);
+            }
         }
     }
 

@@ -8,6 +8,10 @@ public class RevealOneTileAbility : Ability
         if (CanActivate(targetTile, abilityContext))
         {
             targetTile.RevealTile();
+            if (targetTile.submarine == null && abilityContext.diceValue > 1)
+            {
+                DiceManager.Instance.AddSingleDice(1, abilityContext.diceValue - 1);
+            }
         }
     }
 }

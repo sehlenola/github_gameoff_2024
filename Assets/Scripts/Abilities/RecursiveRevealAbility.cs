@@ -14,10 +14,14 @@ public class RecursiveRevealAbility : Ability
 
     private void RevealRecursive(Tile tile)
     {
+        if (tile.HasSubmarine)
+        {
+                tile.RevealTile();
+        }
         if (tile.CurrentState != Tile.TileState.Hidden || tile.HasSubmarine)
             return;
-
         tile.RevealTile();
+
 
         if (tile.NeighborSubmarines == 0)
         {

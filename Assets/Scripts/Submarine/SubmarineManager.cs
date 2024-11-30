@@ -5,7 +5,6 @@ public class SubmarineManager : MonoBehaviour
 {
     public static SubmarineManager Instance { get; private set; }
 
-    public Level levelData;
 
     [System.Serializable]
     public class SubmarineModelEntry
@@ -38,14 +37,14 @@ public class SubmarineManager : MonoBehaviour
     {
         gridSystem = GridSystem.Instance;
 
-        if (levelData == null)
-        {
-            Debug.LogError("Level data not assigned to SubmarineManager.");
-            return;
-        }
+    }
+    // Setup submarines based on level data
+    public void SetupSubmarines(Level levelData)
+    {
+        PlaceSubmarines(levelData);
     }
 
-    public void PlaceSubmarines()
+    public void PlaceSubmarines(Level levelData)
     {
         foreach (Level.SubmarineConfig config in levelData.submarines)
         {
@@ -58,8 +57,36 @@ public class SubmarineManager : MonoBehaviour
                 }
             }
         }
-        GridSystem.Instance.CalculateNeighborNumbers();
+        //GridSystem.Instance.CalculateNeighborNumbers();
         UpdateSubmarineUI();
+    }
+    // Method to clear submarines when moving to the next level
+    public void ClearSubmarines()
+    {
+        // Destroy submarine models
+        ClearSubmarineModels();
+
+        // Clear submarine data
+        submarines.Clear();
+    }
+    private void ClearSubmarineModels()
+    {
+        foreach(GameObject go in submarineModelInstances)
+        {
+            Destroy(go);
+        }
+        submarineModelInstances.Clear();
+    }
+    public bool AreAllSubmarinesDestroyed()
+    {
+        foreach (Submarine submarine in submarines)
+        {
+            if (!submarine.isDestroyed)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private bool PlaceSubmarine(int length)
@@ -107,7 +134,7 @@ public class SubmarineManager : MonoBehaviour
             }
 
             Tile tile = gridSystem.GetTileAt(nx, nz);
-            if (tile.CurrentState == Tile.TileState.Submarine)
+            if (tile.CurrentState == Tile.TileState.Submarine || tile.HasSubmarine)
             {
                 return false;
             }
@@ -121,6 +148,7 @@ public class SubmarineManager : MonoBehaviour
         SpawnSubmarineModel(submarine);
         // Additional logic for when a submarine is destroyed
         Debug.Log($"Submarine of length {submarine.length} destroyed!");
+        GameManager.Instance.OnSubmarineDestroyed();
     }
 
     private void UpdateSubmarineUI()

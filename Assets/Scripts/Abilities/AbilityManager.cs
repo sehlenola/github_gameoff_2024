@@ -35,7 +35,7 @@ public class AbilityManager : MonoBehaviour
     public void SelectAbility(Ability ability, int diceValue)
     {
         CancelAbility();
-        Debug.Log("Selecting ability " + ability);
+        //Debug.Log("Selecting ability " + ability);
         SelectedAbility = ability;
         AbilityContext = new AbilityContext { diceValue = diceValue };
         // Update UI to reflect selected ability

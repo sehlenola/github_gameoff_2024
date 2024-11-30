@@ -8,7 +8,8 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
     public Ability ability;
     public Image abilityIcon;
     public TextMeshProUGUI abilityName;
-    public TextMeshProUGUI abilityDescription;
+    public TextMeshProUGUI diceRequirementText;
+    public TextMeshProUGUI abilityDescriptionText;
 
     public Transform diceSlot;
     private Dice assignedDice;
@@ -31,12 +32,13 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
     {
         abilityIcon.sprite = ability.icon;
         abilityName.text = ability.abilityName;
-        abilityDescription.text = ability.description;
+        //diceRequirementText.text = ability.description;
+        abilityDescriptionText.text = ability.description;
 
-        // Display dice requirement description
+        // Additional UI updates, such as displaying dice requirements
         if (ability.diceRequirement != null)
         {
-            abilityDescription.text += $"\n{ability.diceRequirement.GetDescription()}";
+            diceRequirementText.text = $"{ability.diceRequirement.GetDescription()}";
         }
     }
 
@@ -132,5 +134,11 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log("Ability area detected");
+    }
+
+    public void SetAbility(Ability newAbility)
+    {
+        ability = newAbility;
+        UpdateUI();
     }
 }

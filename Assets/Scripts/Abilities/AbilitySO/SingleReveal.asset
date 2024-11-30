@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 159779a369ed29044812189ec85fc3ca, type: 3}
   m_Name: SingleReveal
   m_EditorClassIdentifier: 
-  abilityName: 
-  description: 
+  abilityName: Ping
+  description: Reveal tile \n \n Roll new smaller dice if miss
   icon: {fileID: 21300000, guid: 66bd3b532acdd504197b377f19db34d4, type: 3}
   supportsPreview: 1
   requiresTarget: 1
-  diceRequirement: {fileID: 0}
+  diceRequirement: {fileID: 11400000, guid: b58355ca97950c24db3c102e81d0ecbb, type: 2}

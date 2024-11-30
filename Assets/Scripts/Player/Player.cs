@@ -10,10 +10,10 @@ public class Player : MonoBehaviour
     public int MaxHealth { get; private set; }
     public int CurrentHealth { get; private set; }
 
-    public int CurrentRerolls { get; private set; }
+    public int CurrentRerolls;
 
     // List of abilities the player has (maximum of 6)
-    public Ability defaultAbility;
+    public List<Ability> defaultAbilities = new List<Ability>();
     public List<Ability> Abilities { get; private set; } = new List<Ability>();
 
     // Events to notify UI or other systems of changes
@@ -32,6 +32,12 @@ public class Player : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            MaxRerolls = 3; // Example value
+            CurrentRerolls = MaxRerolls;
+            foreach (Ability ability in defaultAbilities)
+            {
+                Abilities.Add(ability);
+            }
         }
         else
         {
@@ -48,7 +54,7 @@ public class Player : MonoBehaviour
         CurrentRerolls = MaxRerolls;
 
         // Initialize abilities if needed
-        Abilities.Add(defaultAbility);
+
     }
 
     // Methods to modify health
@@ -101,7 +107,7 @@ public class Player : MonoBehaviour
     // Methods to manage abilities
     public bool AddAbility(Ability ability)
     {
-        if (Abilities.Count < 6)
+        if (Abilities.Count < 20)
         {
             Abilities.Add(ability);
             OnPlayerAbilitiesChanged?.Invoke();

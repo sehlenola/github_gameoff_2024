@@ -118,7 +118,7 @@ public class Dice : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         valueText.raycastTarget = true;
         droppedOnValidTarget = true;
         transform.SetParent(newParent);
-        transform.SetSiblingIndex(1);
+        transform.SetSiblingIndex(2);
         //transform.localPosition = Vector3.zero;
         transform.localPosition = new Vector3(0,50,0);
         transform.localScale = Vector3.one;

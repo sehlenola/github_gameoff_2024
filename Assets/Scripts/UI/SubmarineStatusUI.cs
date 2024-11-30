@@ -24,7 +24,7 @@ public class SubmarineStatusUI : MonoBehaviour
         }
         statusItems.Clear();
 
-        Level levelData = SubmarineManager.Instance.levelData;
+        Level levelData = GameManager.Instance.currentLevel;
         List<Submarine> submarines = SubmarineManager.Instance.GetSubmarines();
 
         Dictionary<int, int> totalCounts = new Dictionary<int, int>();

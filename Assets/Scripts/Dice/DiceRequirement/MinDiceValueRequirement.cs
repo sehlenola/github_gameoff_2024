@@ -12,6 +12,6 @@ public class MinDiceValueRequirement : DiceRequirement
 
     public override string GetDescription()
     {
-        return $"Requires dice value ≥ {minValue}";
+        return $"{minValue}+";
     }
 }

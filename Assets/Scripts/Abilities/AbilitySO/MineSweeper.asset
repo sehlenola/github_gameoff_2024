@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f7eb3e7bab35f14da706d4ab23b1c2b, type: 3}
   m_Name: MineSweeper
   m_EditorClassIdentifier: 
-  abilityName: MineSweeper
-  description: 
+  abilityName: Chain Sweep
+  description: Reveals all connected empty tiles (minesweeper)
   icon: {fileID: 21300000, guid: 66bd3b532acdd504197b377f19db34d4, type: 3}
   supportsPreview: 1
   requiresTarget: 1

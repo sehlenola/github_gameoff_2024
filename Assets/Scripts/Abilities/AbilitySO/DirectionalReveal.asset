@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 003a0e0548df47149a8a779a46513a72, type: 3}
   m_Name: DirectionalReveal
   m_EditorClassIdentifier: 
-  abilityName: 
-  description: 
+  abilityName: Directional+
+  description: Odd reveal Vertical, Even reveal Horizontal
   icon: {fileID: 21300000, guid: 66bd3b532acdd504197b377f19db34d4, type: 3}
   supportsPreview: 1
   requiresTarget: 1
-  diceRequirement: {fileID: 0}
+  diceRequirement: {fileID: 11400000, guid: 7ad3d0fa9d256124eb8c8e308a92c480, type: 2}
   evenStrategy: {fileID: 11400000, guid: 05620462bdc210c4683bd5f45df76fb0, type: 2}
   oddStrategy: {fileID: 11400000, guid: fa23b2999b82f37488fad4b9adc2e8e2, type: 2}

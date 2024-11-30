@@ -12,6 +12,6 @@ public class ExactDiceValueRequirement : DiceRequirement
 
     public override string GetDescription()
     {
-        return $"Requires dice value = {requiredValue}";
+        return $"={requiredValue}";
     }
 }

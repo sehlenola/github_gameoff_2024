@@ -10,12 +10,15 @@ public class GridSystem : MonoBehaviour
     public GameObject tilePrefab;
     public int submarineCount = 10;
 
+    [SerializeField] private Vector3 cameraOffset = new Vector3();
+
     public Level levelData;
     private Tile[,] grid;
     private void Awake()
     {
         Instance = this;
     }
+    /*
     private void Start()
     {
         if (levelData == null)
@@ -29,7 +32,65 @@ public class GridSystem : MonoBehaviour
         //PlaceSubmarines();
         //CalculateNeighborNumbers();
     }
+    */
+    public void SetupGrid(Level levelData)
+    {
+        gridWidth = levelData.gridWidth;
+        gridHeight = levelData.gridHeight;
 
+        GenerateGrid();
+        RecenterCamera();
+    }
+    public void ClearGrid()
+    {
+        // Destroy all tile GameObjects
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        grid = null;
+    }
+    private void RecenterCamera()
+    {
+        // Check if the grid has been generated
+        if (grid == null || gridWidth == 0 || gridHeight == 0)
+        {
+            Debug.LogError("Grid has not been generated yet.");
+            return;
+        }
+
+        // Get the positions of the first and last tiles
+        Tile firstTile = grid[0, 0];
+        Tile lastTile = grid[gridWidth - 1, gridHeight - 1];
+
+        Vector3 firstTilePos = firstTile.transform.position;
+        Vector3 lastTilePos = lastTile.transform.position;
+
+        // Calculate the center position between the first and last tiles
+        Vector3 gridCenter = (firstTilePos + lastTilePos) / 2f;
+
+        // Get the main camera
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera != null)
+        {
+            // Keep the original camera height (Y position)
+            float originalCameraY = mainCamera.transform.position.y;
+
+            // Set the new camera position
+            Vector3 newCameraPosition = new Vector3(gridCenter.x + cameraOffset.x, originalCameraY, gridCenter.z + cameraOffset.z);
+
+            mainCamera.transform.position = newCameraPosition;
+
+            // Ensure the camera is looking at the grid center
+            //mainCamera.transform.LookAt(new Vector3(gridCenter.x, 0, gridCenter.z));
+        }
+        else
+        {
+            Debug.LogError("Main camera not found.");
+        }
+    }
     public Tile GetTileAt(int x, int z)
     {
         if (x < 0 || x >= gridWidth || z < 0 || z >= gridHeight)
@@ -93,7 +154,7 @@ public class GridSystem : MonoBehaviour
             for (int z = 0; z < gridHeight; z++)
             {
                 Vector3 position = new Vector3(startPos.x + x * tileSize, startPos.y, startPos.z + z * tileSize);
-                GameObject newTileObj = Instantiate(tilePrefab, position, Quaternion.identity);
+                GameObject newTileObj = Instantiate(tilePrefab, position, Quaternion.identity, transform);
                 newTileObj.name = $"Tile_{x}_{z}";
 
                 Tile tileComponent = newTileObj.GetComponent<Tile>();
@@ -102,7 +163,7 @@ public class GridSystem : MonoBehaviour
                 grid[x, z] = tileComponent;
             }
         }
-        SubmarineManager.Instance.PlaceSubmarines();
+        //SubmarineManager.Instance.PlaceSubmarines();
     }
 
     void PlaceSubmarines()

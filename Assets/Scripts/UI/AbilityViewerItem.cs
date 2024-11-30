@@ -6,10 +6,12 @@ public class AbilityViewerItem : MonoBehaviour
 {
     public Image abilityIcon;
     public TextMeshProUGUI abilityName;
-    public Button removeButton;
-    public Button addButton;
+    public TextMeshProUGUI abilityDescriptionText;
+    public TextMeshProUGUI diceRequirementText;
+    public Button actionButton; // Could be remove or select button
 
     private Ability ability;
+    private bool isRewardItem = false;
 
     public void SetAbility(Ability ability)
     {
@@ -22,11 +24,32 @@ public class AbilityViewerItem : MonoBehaviour
         abilityIcon.sprite = ability.icon;
         abilityName.text = ability.abilityName;
 
-        removeButton.onClick.RemoveAllListeners();
-        removeButton.onClick.AddListener(OnRemoveButtonClicked);
+        actionButton.onClick.RemoveAllListeners();
 
-        addButton.onClick.RemoveAllListeners();
-        addButton.onClick.AddListener(OnAddButtonClicked);
+        if (isRewardItem)
+        {
+            actionButton.GetComponentInChildren<TextMeshProUGUI>().text = "+";
+            actionButton.onClick.AddListener(OnSelectButtonClicked);
+        }
+        else
+        {
+            actionButton.GetComponentInChildren<TextMeshProUGUI>().text = "-";
+            actionButton.onClick.AddListener(OnRemoveButtonClicked);
+        }
+
+        abilityDescriptionText.text = ability.description;
+
+        // Additional UI updates, such as displaying dice requirements
+        if (ability.diceRequirement != null)
+        {
+            diceRequirementText.text = $"{ability.diceRequirement.GetDescription()}";
+        }
+    }
+
+    public void SetAsReward()
+    {
+        isRewardItem = true;
+        UpdateUI();
     }
 
     private void OnRemoveButtonClicked()
@@ -34,14 +57,9 @@ public class AbilityViewerItem : MonoBehaviour
         Player.Instance.RemoveAbility(ability);
     }
 
-    private void OnAddButtonClicked()
+    private void OnSelectButtonClicked()
     {
-        Player.Instance.AddAbility(ability);
-    }
-
-    // Optional: Implement swapping logic if needed
-    public void OnSwapButtonClicked(Ability newAbility)
-    {
-        Player.Instance.SwapAbility(ability, newAbility);
+        AbilityViewer abilityViewer = GetComponentInParent<AbilityViewer>();
+        abilityViewer.OnRewardAbilitySelected(ability);
     }
 }

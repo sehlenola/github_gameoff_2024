@@ -15,4 +15,8 @@ public class Level : ScriptableObject
     }
 
     public List<SubmarineConfig> submarines = new List<SubmarineConfig>();
+
+    // New property for max turns
+    public int maxTurns = 3;
+    public int maxDice = 3;
 }
