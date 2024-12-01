@@ -42,6 +42,7 @@ public class Dice : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (AbilityManager.Instance.SelectedAbility != null) { return; }
+        AudioManager.Instance.PlayClickSound();
         diceImage.raycastTarget = false;
         valueText.raycastTarget = false;
         droppedOnValidTarget = false;
@@ -93,6 +94,7 @@ public class Dice : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         else if (!droppedOnValidTarget)
         {
             // Return to original position if not dropped on a valid target
+            AudioManager.Instance.PlayErrorSound();
             ResetPosition();
         }
     }
@@ -103,6 +105,7 @@ public class Dice : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         valueText.raycastTarget = true;
         transform.SetParent(originalParent);
         transform.position = originalPosition;
+
     }
 
     public void SetPosition(Transform newParent)

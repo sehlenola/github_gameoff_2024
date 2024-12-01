@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Ping
   description: Reveal tile \n \n Roll new smaller dice if miss
-  icon: {fileID: 21300000, guid: 66bd3b532acdd504197b377f19db34d4, type: 3}
+  icon: {fileID: 21300000, guid: 5a1756c86d989e94ca4efcd3038102e6, type: 3}
+  targetingIcon: {fileID: 21300000, guid: 261ee65d15797a34da2acef31cc9e3bc, type: 3}
+  iconColor:
+    serializedVersion: 2
+    rgba: 4278220301
+  abilityAudio: {fileID: 8300000, guid: f52782fd46b72ac4193e05fcbb002ac6, type: 3}
   supportsPreview: 1
   requiresTarget: 1
   diceRequirement: {fileID: 11400000, guid: b58355ca97950c24db3c102e81d0ecbb, type: 2}

@@ -10,6 +10,7 @@ public class AbilityManager : MonoBehaviour
     public Ability SelectedAbility;
     public AbilityCard abilityCard;
     private List<Tile> highlightedTiles = new List<Tile>();
+    [SerializeField] private AudioClip errorClip, selectAbilityClip;
 
     public AbilityContext AbilityContext { get; private set; }
 
@@ -38,6 +39,7 @@ public class AbilityManager : MonoBehaviour
         //Debug.Log("Selecting ability " + ability);
         SelectedAbility = ability;
         AbilityContext = new AbilityContext { diceValue = diceValue };
+        AudioManager.Instance.PlaySound(selectAbilityClip);
         // Update UI to reflect selected ability
     }
 
@@ -71,6 +73,7 @@ public class AbilityManager : MonoBehaviour
                 if (abilityCard != null)
                 {
                     abilityCard.OnAbilityUsed();
+                    AudioManager.Instance.PlaySound(SelectedAbility.abilityAudio);
                 }
                 // Deselect ability after use
                 SelectedAbility = null;
@@ -79,6 +82,7 @@ public class AbilityManager : MonoBehaviour
             }
             else
             {
+                AudioManager.Instance.PlaySound(errorClip);
                 Debug.Log("Ability cannot be activated on this tile.");
             }
         }

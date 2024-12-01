@@ -5,6 +5,8 @@ public class SubmarineManager : MonoBehaviour
 {
     public static SubmarineManager Instance { get; private set; }
 
+    [SerializeField] private AudioClip submarineDestroyedClip;
+
 
     [System.Serializable]
     public class SubmarineModelEntry
@@ -146,6 +148,7 @@ public class SubmarineManager : MonoBehaviour
     {
         UpdateSubmarineUI();
         SpawnSubmarineModel(submarine);
+        AudioManager.Instance.PlaySound(submarineDestroyedClip);
         // Additional logic for when a submarine is destroyed
         Debug.Log($"Submarine of length {submarine.length} destroyed!");
         GameManager.Instance.OnSubmarineDestroyed();

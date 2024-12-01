@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class AbilityViewerItem : MonoBehaviour
 {
-    public Image abilityIcon;
+    public Image abilityIcon, abilityTargetingIcon;
     public TextMeshProUGUI abilityName;
     public TextMeshProUGUI abilityDescriptionText;
     public TextMeshProUGUI diceRequirementText;
@@ -22,13 +22,15 @@ public class AbilityViewerItem : MonoBehaviour
     private void UpdateUI()
     {
         abilityIcon.sprite = ability.icon;
+        abilityTargetingIcon.sprite = ability.targetingIcon;
+        abilityIcon.color = ability.iconColor;
         abilityName.text = ability.abilityName;
 
         actionButton.onClick.RemoveAllListeners();
 
         if (isRewardItem)
         {
-            actionButton.GetComponentInChildren<TextMeshProUGUI>().text = "+";
+            actionButton.GetComponentInChildren<TextMeshProUGUI>().text = "Select";
             actionButton.onClick.AddListener(OnSelectButtonClicked);
         }
         else

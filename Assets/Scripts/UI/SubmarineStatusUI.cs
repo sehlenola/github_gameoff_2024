@@ -29,11 +29,13 @@ public class SubmarineStatusUI : MonoBehaviour
 
         Dictionary<int, int> totalCounts = new Dictionary<int, int>();
         Dictionary<int, int> destroyedCounts = new Dictionary<int, int>();
+        Dictionary<int, Sprite> submarineSprites = new Dictionary<int, Sprite>();
 
         foreach (Level.SubmarineConfig config in levelData.submarines)
         {
             totalCounts[config.length] = config.count;
             destroyedCounts[config.length] = 0;
+            submarineSprites[config.length] = config.sprite;
         }
 
         foreach (Submarine submarine in submarines)
@@ -55,7 +57,7 @@ public class SubmarineStatusUI : MonoBehaviour
         {
             GameObject itemObj = Instantiate(statusItemPrefab, statusContainer);
             SubmarineStatusItem item = itemObj.GetComponent<SubmarineStatusItem>();
-            item.SetStatus(length, destroyedCounts[length], totalCounts[length]);
+            item.SetStatus(length, destroyedCounts[length], totalCounts[length], submarineSprites[length]);
             statusItems[length] = item;
         }
     }

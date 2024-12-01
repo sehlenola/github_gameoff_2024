@@ -17,7 +17,9 @@ MonoBehaviour:
   submarines:
   - length: 3
     count: 2
+    sprite: {fileID: 21300000, guid: 1ea10c86a596871418ff7a34e2521610, type: 3}
   - length: 2
     count: 2
+    sprite: {fileID: 21300000, guid: 4933bebe4a118a94eb4561ac32525668, type: 3}
   maxTurns: 3
   maxDice: 3

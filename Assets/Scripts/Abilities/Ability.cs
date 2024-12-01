@@ -6,6 +6,10 @@ public abstract class Ability : ScriptableObject
     public string abilityName;
     public string description;
     public Sprite icon;
+    public Sprite targetingIcon;
+    public Color32 iconColor;
+
+    public AudioClip abilityAudio;
 
     public bool supportsPreview = true;
     public bool requiresTarget = true;

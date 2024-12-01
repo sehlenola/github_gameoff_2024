@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -9,6 +10,7 @@ public class Tile : MonoBehaviour
 
     public int NeighborSubmarines = 0;
     public bool HasSubmarine = false;
+    [SerializeField] private GameObject markerObject;
 
     private bool isHighlighted = false;
 
@@ -24,6 +26,7 @@ public class Tile : MonoBehaviour
     private void Awake()
     {
         UpdateTileAppearance();
+        markerObject.SetActive(false);
     }
 
     public void SetHighlighted(bool highlighted)
@@ -63,11 +66,23 @@ public class Tile : MonoBehaviour
         if (AbilityManager.Instance.SelectedAbility != null)
         {
             AbilityManager.Instance.UseAbilityOnTile(this);
+            DisableMarker();
         }
         else
         {
             Debug.Log("No ability selected.");
+            ToggleMarker();
+
         }
+    }
+    private void DisableMarker()
+    {
+        markerObject.SetActive(false);
+    }
+
+    private void ToggleMarker()
+    {
+        markerObject.SetActive(!markerObject.activeSelf);
     }
     public void SetCoordinates(int x, int z)
     {
@@ -77,6 +92,7 @@ public class Tile : MonoBehaviour
 
     public void AttackTile()
     {
+        DisableMarker();
         if (CurrentState == TileState.Hidden || CurrentState == TileState.Submarine)
         {
             if (submarine != null)
@@ -94,7 +110,7 @@ public class Tile : MonoBehaviour
     }
     public void RevealTile()
     {
-        
+        DisableMarker();
         if (CurrentState == TileState.Hidden)
         {
             if (HasSubmarine)

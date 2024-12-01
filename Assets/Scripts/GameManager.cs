@@ -2,13 +2,19 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    [SerializeField] private GameObject GameOverScreen;
+    [SerializeField] private TextMeshProUGUI GameOverTitleText, GameOverBodyText;
 
     // List of levels
     public List<Level> levels = new List<Level>();
+
+    [SerializeField] Button EndTurnButton;
 
     // Current level index
     private int currentLevelIndex = 0;
@@ -50,6 +56,19 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnEnable()
+    {
+        StaticEventHandler.OnDiceUsed += StaticEventHandler_OnDiceUsed;
+    }
+    private void OnDisable()
+    {
+        StaticEventHandler.OnDiceUsed -= StaticEventHandler_OnDiceUsed;
+    }
+    private void StaticEventHandler_OnDiceUsed(DiceUsedArgs args)
+    {
+        UpdateTurnUI();
     }
 
     private void Start()
@@ -235,6 +254,9 @@ public class GameManager : MonoBehaviour
     {
         // Implement game over UI logic
         Debug.Log("Displaying Game Over Screen.");
+        GameOverTitleText.text = "Defeat";
+        GameOverBodyText.text = "The submarines avoided your detection and has sunk the convoy!";
+        GameOverScreen.SetActive(true);
     }
 
     // Show game won screen
@@ -242,12 +264,30 @@ public class GameManager : MonoBehaviour
     {
         // Implement game won UI logic
         Debug.Log("Displaying Game Won Screen.");
+        GameOverTitleText.text = "Victory";
+        GameOverBodyText.text = "You saved the convoy from all the submarines. Thanks for playing my game";
+        GameOverScreen.SetActive(true);
     }
 
     // Update the turn UI
     private void UpdateTurnUI()
     {
         gameStatusText.text = $"Turn {currentTurn}/{maxTurns}";
+        if (DiceManager.Instance.GetDiceCount() <= 0)
+        {
+            if (currentTurn >= currentLevel.maxTurns)
+            {
+                CheckGameOver();
+            }
+            else
+            {
+                EndTurnButton.interactable = true;
+            }
+        }
+        else
+        {
+            EndTurnButton.interactable = false;
+        }
     }
 
     // Method called when a submarine is destroyed to check win condition

@@ -15,6 +15,7 @@ public class DiceManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI rerollButtonText;
     [SerializeField] private TextMeshProUGUI diceCounterText;
+    [SerializeField] private AudioClip rollDiceClip, rollSingeDiceClip;
 
     private List<Dice> dicePool = new List<Dice>();
 
@@ -49,7 +50,7 @@ public class DiceManager : MonoBehaviour
     public void RollDice()
     {
         ClearDice();
-        
+        AudioManager.Instance.PlaySound(rollDiceClip);
         for (int i = 0; i < GameManager.Instance.currentLevel.maxDice; i++)
         {
             AddSingleDice();
@@ -81,9 +82,11 @@ public class DiceManager : MonoBehaviour
 
             Player.Instance.CurrentRerolls--;
             rerollButtonText.text = "Reroll - " + Player.Instance.CurrentRerolls;
+            AudioManager.Instance.PlaySound(rollSingeDiceClip);
         }
         else
         {
+            AudioManager.Instance.PlayErrorSound();
             return;
         }
     }
@@ -97,6 +100,7 @@ public class DiceManager : MonoBehaviour
 
     public void ReturnDiceToPool(Dice dice)
     {
+        AudioManager.Instance.PlayErrorSound();
         diceArea.AddDice(dice);
         UpdateDiceText();
     }
@@ -105,5 +109,10 @@ public class DiceManager : MonoBehaviour
         dicePool.Remove(dice);
         diceArea.DestroyDice(dice);
         UpdateDiceText();
+        StaticEventHandler.CallOnDiceUsed();
+    }
+    public int GetDiceCount()
+    {
+        return dicePool.Count;
     }
 }

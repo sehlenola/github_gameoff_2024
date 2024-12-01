@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Depth Charge+
   description: Attack target and adjacent tiles
-  icon: {fileID: 21300000, guid: 72333ad5e73015949be3ce5cafbfe280, type: 3}
+  icon: {fileID: 21300000, guid: 7c073686ba47b5846b4466dfde944d1a, type: 3}
+  targetingIcon: {fileID: 21300000, guid: 90c8bd4b7a5471348993b5c131df395b, type: 3}
+  iconColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  abilityAudio: {fileID: 8300000, guid: d55b285fc042f684d8a790b0fb779af7, type: 3}
   supportsPreview: 1
   requiresTarget: 1
   diceRequirement: {fileID: 11400000, guid: 7699bfb4251f9b343a9796e70f29eb02, type: 2}

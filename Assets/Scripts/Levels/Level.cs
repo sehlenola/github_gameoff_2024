@@ -12,6 +12,7 @@ public class Level : ScriptableObject
     {
         public int length;
         public int count;
+        public Sprite sprite;
     }
 
     public List<SubmarineConfig> submarines = new List<SubmarineConfig>();

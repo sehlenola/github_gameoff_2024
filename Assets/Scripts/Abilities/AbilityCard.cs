@@ -7,6 +7,7 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
 {
     public Ability ability;
     public Image abilityIcon;
+    public Image targetingIcon;
     public TextMeshProUGUI abilityName;
     public TextMeshProUGUI diceRequirementText;
     public TextMeshProUGUI abilityDescriptionText;
@@ -31,6 +32,8 @@ public class AbilityCard : MonoBehaviour, IDropHandler, IPointerEnterHandler
     private void UpdateUI()
     {
         abilityIcon.sprite = ability.icon;
+        targetingIcon.sprite = ability.targetingIcon;
+        abilityIcon.color = ability.iconColor;
         abilityName.text = ability.abilityName;
         //diceRequirementText.text = ability.description;
         abilityDescriptionText.text = ability.description;

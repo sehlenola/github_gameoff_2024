@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Depth Charge
   description: Attack tile \n \n Return used dice -1 on hit
-  icon: {fileID: 21300000, guid: 72333ad5e73015949be3ce5cafbfe280, type: 3}
+  icon: {fileID: 21300000, guid: 7c073686ba47b5846b4466dfde944d1a, type: 3}
+  targetingIcon: {fileID: 21300000, guid: 261ee65d15797a34da2acef31cc9e3bc, type: 3}
+  iconColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  abilityAudio: {fileID: 8300000, guid: d55b285fc042f684d8a790b0fb779af7, type: 3}
   supportsPreview: 1
   requiresTarget: 1
   diceRequirement: {fileID: 11400000, guid: 48c93f0d495787642b54660684481db8, type: 2}

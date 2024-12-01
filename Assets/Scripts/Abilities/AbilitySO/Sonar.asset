@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Sonar
   description: Reveal tiles in small radius
-  icon: {fileID: 21300000, guid: 66bd3b532acdd504197b377f19db34d4, type: 3}
+  icon: {fileID: 21300000, guid: 5a1756c86d989e94ca4efcd3038102e6, type: 3}
+  targetingIcon: {fileID: 21300000, guid: 90c8bd4b7a5471348993b5c131df395b, type: 3}
+  iconColor:
+    serializedVersion: 2
+    rgba: 4278220301
+  abilityAudio: {fileID: 8300000, guid: 8270c441f77f9764eac9d3c2a53bd01d, type: 3}
   supportsPreview: 1
   requiresTarget: 1
   diceRequirement: {fileID: 11400000, guid: 6cc6b040b56508a4e9f89ecd1a9e4165, type: 2}

@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Sonar+
   description: Reveal tiles in large area
-  icon: {fileID: 21300000, guid: 66bd3b532acdd504197b377f19db34d4, type: 3}
+  icon: {fileID: 21300000, guid: 5a1756c86d989e94ca4efcd3038102e6, type: 3}
+  targetingIcon: {fileID: 21300000, guid: f8950dcf39641684b92fad8cbeec32f0, type: 3}
+  iconColor:
+    serializedVersion: 2
+    rgba: 4278220301
+  abilityAudio: {fileID: 8300000, guid: 8270c441f77f9764eac9d3c2a53bd01d, type: 3}
   supportsPreview: 1
   requiresTarget: 1
   diceRequirement: {fileID: 11400000, guid: 7699bfb4251f9b343a9796e70f29eb02, type: 2}
