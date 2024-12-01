@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d6e76df5300de43882494a43a1ffb2, type: 3}
+  m_Name: XAttack
+  m_EditorClassIdentifier: 
+  abilityName: Hedgehog
+  description: Attack tiles in X formation
+  icon: {fileID: 21300000, guid: 7c073686ba47b5846b4466dfde944d1a, type: 3}
+  targetingIcon: {fileID: 21300000, guid: 9843c9db8277de841a4e4c2393a1607c, type: 3}
+  iconColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  abilityAudio: {fileID: 8300000, guid: d55b285fc042f684d8a790b0fb779af7, type: 3}
+  supportsPreview: 1
+  requiresTarget: 1
+  diceRequirement: {fileID: 11400000, guid: d269b5df2637fdc45b9db8046bac2784, type: 2}
+  attackStrategy: {fileID: 11400000, guid: 51466bcc472bacd4daaab4cff8b6e7a6, type: 2}

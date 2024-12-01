@@ -9,18 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66a93102de9d94e428d88ad0870d2f50, type: 3}
-  m_Name: Sonar
+  m_Script: {fileID: 11500000, guid: e8d4c6caf7c42ec4fb417da9080393c3, type: 3}
+  m_Name: XReveal
   m_EditorClassIdentifier: 
-  abilityName: Sonar
-  description: Reveal tiles in small radius
+  abilityName: Probe
+  description: Reveal in X formation
   icon: {fileID: 21300000, guid: 5a1756c86d989e94ca4efcd3038102e6, type: 3}
-  targetingIcon: {fileID: 21300000, guid: 90c8bd4b7a5471348993b5c131df395b, type: 3}
+  targetingIcon: {fileID: 21300000, guid: 9843c9db8277de841a4e4c2393a1607c, type: 3}
   iconColor:
     serializedVersion: 2
     rgba: 4278220301
   abilityAudio: {fileID: 8300000, guid: 8270c441f77f9764eac9d3c2a53bd01d, type: 3}
   supportsPreview: 1
   requiresTarget: 1
-  diceRequirement: {fileID: 11400000, guid: 6fff41a1f493df149b08300e7aa5489d, type: 2}
-  radius: 1
+  diceRequirement: {fileID: 11400000, guid: 7ad3d0fa9d256124eb8c8e308a92c480, type: 2}
+  revealStrategy: {fileID: 11400000, guid: 51466bcc472bacd4daaab4cff8b6e7a6, type: 2}

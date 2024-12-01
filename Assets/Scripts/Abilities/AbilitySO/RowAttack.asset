@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347f1602d44efcd47aa5b5b62f7ad6e6, type: 3}
+  m_Name: RowAttack
+  m_EditorClassIdentifier: 
+  abilityName: Row Attack
+  description: Attack Tile in Row
+  icon: {fileID: 21300000, guid: 7c073686ba47b5846b4466dfde944d1a, type: 3}
+  targetingIcon: {fileID: 21300000, guid: 3c559f706a0835e4ab27ad1ebac327f5, type: 3}
+  iconColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  abilityAudio: {fileID: 8300000, guid: 31c1fba112adf5249a62f2d28cdb2340, type: 3}
+  supportsPreview: 1
+  requiresTarget: 1
+  diceRequirement: {fileID: 11400000, guid: 48c93f0d495787642b54660684481db8, type: 2}
+  radius: 1
+  RevealStrategy: {fileID: 11400000, guid: 05620462bdc210c4683bd5f45df76fb0, type: 2}
